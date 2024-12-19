@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.Testing;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using static Nullable.Extended.Analyzer.Test.Verifiers.CSharpCodeFixVerifier<
@@ -73,6 +74,29 @@ namespace Nullable.Extended.Analyzer.Test
             };
 
             await VerifyCodeFixAsync(source.ReplaceLineEndings(lineEnding), expected, fixedSource.ReplaceLineEndings(lineEnding));
+        }
+
+        [TestMethod]
+        [DataRow("\n"), DataRow("\r\n")]
+        public async Task CommentIsAddedToTopLevelStatement(string lineEnding)
+        {
+            const string source = """
+            System.Console.WriteLine("Hello, World!".ToString(){|#0:!|});
+
+            """;
+
+            const string fixedSource = """
+            // ! TODO:
+            System.Console.WriteLine("Hello, World!".ToString()!);
+
+            """;
+
+            var expected = new[]
+            {
+                DiagnosticResult.CompilerWarning(NullForgivingDetectionAnalyzer.GeneralDiagnosticId).WithLocation(0)
+            };
+
+            await VerifyCodeFixAsync(source.ReplaceLineEndings(lineEnding), expected, fixedSource.ReplaceLineEndings(lineEnding), outputKind: OutputKind.ConsoleApplication);
         }
     }
 }

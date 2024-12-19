@@ -1,11 +1,12 @@
 [Next]
 - The codefix suggestion will use the same line ending as the offending code.
+- Fix crash when suggesting a fix for un-indented code.
 
 1.15
 - Default severity of analyzers should be warning to be suppressable.
 
 1.14
-- Introduce InitRule for "init only" properties; 
+- Introduce InitRule for "init only" properties;
 - Default severity is now Error.
 - Remove the outdated sonar-based suppressor.
 
@@ -17,7 +18,7 @@
 - Improve reliability of the "Required" flag by analyzing each result individually.
 
 1.11
-- Remove the "Remove all not required tokens" command, it's of no practical use 
+- Remove the "Remove all not required tokens" command, it's of no practical use
 
 1.10
 - improve data grid filtering experience
