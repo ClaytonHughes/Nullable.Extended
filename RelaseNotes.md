@@ -1,3 +1,6 @@
+[Next]
+- Fix crash when suggesting a fix for un-indented code.
+
 1.15
 - Default severity of analyzers should be warning to be suppressable.
 
